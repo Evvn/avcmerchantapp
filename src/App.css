@@ -1,0 +1,88 @@
+/* .App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 40vmin;
+  pointer-events: none;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+} */
+
+body {
+  font-size: 24px;
+}
+
+button {
+  padding: 20px;
+  background: green;
+  color: white;
+  font-size: 24px;
+}
+
+.react-tabs__tab-list {
+  display: flex;
+  list-style: none;
+}
+
+.react-tabs__tab {
+  padding: 20px;
+  position: relative;
+  border: 1px solid white;
+}
+
+.react-tabs__tab-list {
+  border-bottom: 1px solid green;
+  position: fixed;
+  width: 100%;
+  z-index: 1;
+  background: white;
+  margin-top: 0;
+  padding-top: 20px;
+  box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.05);
+}
+
+.react-tabs__tab.react-tabs__tab--selected {
+  border: 1px solid green;
+  border-bottom: none;
+}
+
+.react-tabs__tab.react-tabs__tab--selected::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  height: 1px;
+  width: 100%;
+  background-color: white;
+}
+
+.react-tabs__tab-panel.react-tabs__tab-panel--selected {
+  position: absolute;
+  top: 100px;
+  left: 0;
+  width: 100vw;
+}
