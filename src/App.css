@@ -32,8 +32,25 @@
   }
 } */
 
+.loading {
+  height: 100vh;
+  width: 100vw;
+  max-width: 100%;
+  background-color: #fc4250;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.mercNav{
+  background: #fc4250;
+  color: black;
+  opacity: .96;
+}
 body {
   font-size: 24px;
+  background: #ffcad3;
 }
 
 button {
@@ -85,4 +102,48 @@ button {
   top: 100px;
   left: 0;
   width: 100vw;
+}
+
+.blueRectBelow{
+  height: 0px;
+  width: 0;
+  background: #fc4250;
+}
+
+.navigationLink:hover .blueRectBelow{
+  background: #fc4250;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+
+
+body .nlink{
+  color: darkgrey;
+  margin-bottom: -6px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  background: lightgrey;
+}
+
+.nlink:hover{
+  background: white;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  color: #fc4250;
+  margin-bottom: -6px;
+}
+
+body .styleStatus{
+  position: absolute;
+  top: 56px;
+}
+
+.panelContainer{
+  margin-top: -10px;
+  height: 100%;
+  width: 100%;
+  background: #FFCAD3;
 }
