@@ -22,7 +22,8 @@ class Order extends Component {
         <div>
         <h6>{`${item.items.name}`}</h6>
           <p>Addons will be listed here.</p>
-        <h6>{item.items.price}</h6>
+        <h6>{'Price: ' + item.items.price}</h6>
+        <h6>{'Quanity: ' + item.quantity}</h6>
         </div>
       );
     });
