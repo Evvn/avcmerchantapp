@@ -146,7 +146,7 @@ class App extends React.Component {
             </Nav>
           </Collapse>
         </Navbar>
-        <div className="panelContainer">
+        <div className="panelContainer" id={window.location.hash.replace('#', '')}>
               <SocketListener label={'#ready'}/>
         </div>
   </div>);

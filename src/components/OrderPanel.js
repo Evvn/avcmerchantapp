@@ -78,15 +78,18 @@ renderOrderItem() {
 
     render(){
         const {header, hasOrders, label, isLoading } = this.props;
-
+        const Labels ={
+            pending: 'Pending Orders',
+            ready: 'Ready For Pickup',
+            completed: 'Completed Orders',
+        }
         const noOrderStyles = {
             padding: "20px"
         };
-        console.log(window.location.hash.replace('#', ''))
         return(
-            <div style={{marginTop: '80px'}} id={window.location.hash.replace('#', '')}>
+            <div style={{marginTop: '80px'}} >
                 <div style={{marginLeft: '20px', paddingTop:'36px'}}>
-                <h4>{window.location.hash}</h4>
+                <h4>{`${Labels[window.location.hash.replace('#', '')]}`}</h4>
                 </div>
                 {isLoading? this.cached: (
                     <div>

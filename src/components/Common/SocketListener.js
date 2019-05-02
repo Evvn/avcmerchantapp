@@ -14,7 +14,7 @@ class SocketListener extends React.Component{
         this.state = {
             response: false,
             update: false,
-            endpoint: "localhost:5000",
+            endpoint: process.env.REACT_APP_BFF_BASE_URL,
         }
 
         this.old = false;
@@ -31,8 +31,7 @@ class SocketListener extends React.Component{
         const { endpoint} = this.state;
         const socket = socketIOClient(endpoint);
         socket.on("FromAPI", data => {
-            console.log(!_.isEqual(data, this.response))
-            if(!_.isEqual(this.data, this.response)){
+            if(!_.isEqual(JSON.stringify(data), JSON.stringify(this.response))){
                 console.log('called')
                 this.old = this.response;
                 this.response = data;
