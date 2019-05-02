@@ -21,22 +21,28 @@ export default (initialState = {}) => {
   let store = '';
 
   // for dev
-  if (process.env.REACT_APP_REDUX_DEV_TOOLS === 'true') {
-    store = createStore(
-      makeRootReducer(history),
-      initialState,
-      window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
-        trace: true,
-      })(applyMiddleware(...middleware), ...enhancers),
-    );
-  } // for prod
-  else {
-    store = createStore(
-      makeRootReducer(history),
-      initialState,
-      compose(applyMiddleware(...middleware), ...enhancers),
-    );
-  }
+  // if (process.env.REACT_APP_REDUX_DEV_TOOLS === 'true') {
+  //   store = createStore(
+  //     makeRootReducer(history),
+  //     initialState,
+  //     window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
+  //       trace: true,
+  //     })(applyMiddleware(...middleware), ...enhancers),
+  //   );
+  // } // for prod
+  // else {
+  //   store = createStore(
+  //     makeRootReducer(history),
+  //     initialState,
+  //     compose(applyMiddleware(...middleware), ...enhancers),
+  //   );
+  // }
+
+  store = createStore(
+    makeRootReducer(history),
+    initialState,
+    compose(applyMiddleware(...middleware), ...enhancers),
+  );
 
   store.asyncReducers = {};
   sagaMiddleware.run(rootSaga)
