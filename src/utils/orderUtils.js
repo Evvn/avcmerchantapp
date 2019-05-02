@@ -8,8 +8,9 @@ import Addons from "../data/addons";
 
 export const mapOrdersToData = (data) => {
     const { orders, addOns, items} = data;
+    console.log(addOns)
     return sortOrders(orders.map(order => {
-      
+
       const { item_id: [itemId], addons, quantity } = order;
       return {
         ...order,
@@ -53,7 +54,7 @@ export const sortOrders = (orders) => {
     const completed = sortByTime(orders.filter(order => !!order.order_is_ready));
 
     return { pending, ready, completed };
-      
+
 }
 
 export const airtableFetch = async () => {
@@ -98,7 +99,7 @@ export const airtableFetch = async () => {
         venueName
       });
       const currentAddons = Addons.getAll("Hopscotch");
-      orderState.addons = currentAddons;
+      orderState.addOns = currentAddons;
     });
 
     return orderState;

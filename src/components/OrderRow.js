@@ -14,9 +14,9 @@ const titleStyles = { fontWeight: "bold", padding: "10px 0" };
 class Order extends Component {
 
 
-  findAddon(id){
-    const match =  Addons.filter(addon => addon.id === id)
-    return (<div><p>{`--${match[0].name}  - Addon Price: ${match[0].price}`}</p></div>)
+  findAddon(match){
+
+    return (<div><p>{`--${match.name}  - Addon Price: ${match.price}`}</p></div>)
   }
 
   generateItems(){
