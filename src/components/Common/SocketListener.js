@@ -52,7 +52,7 @@ class SocketListener extends React.Component{
         const readyOrders = !isLoading ? orders.ready : [];
         const hasReadyOrders = !isLoading ? !!readyOrders.length : false;
         
-
+        console.log(orders.completed)
         let ordersOut;
         let hasOrders;
         if(window.location.hash === '#pending'){
@@ -67,10 +67,11 @@ class SocketListener extends React.Component{
             hasOrders = hasReadyOrders;
         }
             return (
+                <div>
                 <OrderPanel
-                      hasOrders={hasOrders}
-                      orders={ordersOut}
-                      label={label}
+                      hasOrders={hasPendingOrders}
+                      orders={pendingOrders}
+                      label='pending'
                       header="Pending Orders"
                       sendSms={sendSms}
                       updateAirtable={updateAirtable}
@@ -78,6 +79,30 @@ class SocketListener extends React.Component{
                       getOrders={getOrders}
                       new={!_.isEqual(this.response, this.old)}
                 />
+
+                <OrderPanel
+                      hasOrders={hasReadyOrders}
+                      orders={readyOrders}
+                      label='ready'
+                      header="Ready Orders"
+                      sendSms={sendSms}
+                      updateAirtable={updateAirtable}
+                      isLoading={isLoading}
+                      getOrders={getOrders}
+                      new={!_.isEqual(this.response, this.old)}
+                />
+                <OrderPanel
+                      hasOrders={hasCompletedOrders}
+                      orders={completedOrders}
+                      label='completed'
+                      header="Completed Orders"
+                      sendSms={sendSms}
+                      updateAirtable={updateAirtable}
+                      isLoading={isLoading}
+                      getOrders={getOrders}
+                      new={!_.isEqual(this.response, this.old)}
+                />
+                </div>
             );
         }
     

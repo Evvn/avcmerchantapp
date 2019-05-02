@@ -33,6 +33,7 @@ class OrderPanel extends React.Component{
         if (!nextProps.new) {
           return false;
         } else {
+            console.log('get orders')
             this.props.getOrders();
         }
       }
@@ -86,18 +87,21 @@ renderOrderItem() {
         const noOrderStyles = {
             padding: "20px"
         };
+        const show = this.cashed ? this.cached : 'Loading';
+        if(window.location.hash.replace('#', '') === label){
         return(
             <div style={{marginTop: '80px'}} >
                 <div style={{marginLeft: '20px', paddingTop:'36px'}}>
                 <h4>{`${Labels[window.location.hash.replace('#', '')]}`}</h4>
                 </div>
-                {isLoading? this.cached: (
+                {isLoading ? this.cached :  (
                     <div>
-                        {this.renderOrderItem()}
+                        {hasOrders ? this.renderOrderItem() : 'No Orders'}
                     </div>
                 )}
           </div>
-        );
+        );}
+        return <div></div>
     }
 }
 
