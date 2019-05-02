@@ -66,7 +66,7 @@ class OrderPanel extends React.Component{
                     label={label}
                 />
             )
-        })
+        }).reverse();
 
 
 

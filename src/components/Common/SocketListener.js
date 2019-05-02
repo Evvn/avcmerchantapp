@@ -52,7 +52,6 @@ class SocketListener extends React.Component{
         const readyOrders = !isLoading ? orders.ready : [];
         const hasReadyOrders = !isLoading ? !!readyOrders.length : false;
         
-        console.log(orders.completed)
         let ordersOut;
         let hasOrders;
         if(window.location.hash === '#pending'){

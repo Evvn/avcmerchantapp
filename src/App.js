@@ -91,6 +91,7 @@ class App extends React.Component {
   }
 
   componentWillMount(){
+    toast('Loading...');
     window.location = '#pending';
   }
   
@@ -103,6 +104,7 @@ class App extends React.Component {
   }
 
   clickNav(path){
+    toast('Loading...');
     this.setState({currentView: path});
   }
 
@@ -116,15 +118,14 @@ class App extends React.Component {
       completed: { label: `Completed Orders`, path: '#completed' },
     };
 
-      console.log(window.location.hash)
     return (
       <div style={{display: 'block'}} className="App">
         <ToastContainer
           position={toast.POSITION.TOP_RIGHT}
-          autoClose={1000}
+          autoClose={10000}
           pauseOnHover={false}
           pauseOnFocusLoss={false}
-          hideProgressBar={true}
+          hideProgressBar={false}
         />
         <Navbar className="mercNav" expand="md" fixed="top">
           <NavbarBrand href="/">
