@@ -1,23 +1,46 @@
 import React from 'react';
 import OrderRow from './OrderRow.js';
+import _ from 'lodash';
 
 class OrderPanel extends React.Component{
 
     constructor(props){
         super(props);
         
-        
+        this.state={
+            internalLoad: false,
+            cached: false,
+        }
+
+        this.cached = false
 
         this.renderOrderItem = this.renderOrderItem.bind(this);
     }
 
+    componentWillMount(){
+        const orders = this.renderOrderItem();
+        this.cached =  orders;
+    }
 
+    componentWillUpdate(){
+        if(!_.isEqual(this.props.orders, this.state.cached)){
+            const orders = this.renderOrderItem();
+            this.cached = orders;
+        }
+    }
 
+    componentDidUpdate(nextProps, nextState) {
+        if (!nextProps.new) {
+          return false;
+        } else {
+            this.props.getOrders();
+        }
+      }
 
 
 
     groupByOrderId(orders){
-        const {sendSms, updateAirtable, channel} = this.props;
+        const {sendSms, updateAirtable, label} = this.props;
         const orderIds = [];
         const groupedOrders = {};
         orders.map(order => {
@@ -30,7 +53,6 @@ class OrderPanel extends React.Component{
             }
         });
 
-        console.log(groupedOrders, orderIds)
 
         
         return orderIds.map(orderId => {
@@ -40,7 +62,7 @@ class OrderPanel extends React.Component{
                     items={items}
                     sendSms={sendSms}
                     updateAirtable={updateAirtable}
-                    channel={channel}
+                    label={label}
                 />
             )
         })
@@ -55,20 +77,20 @@ renderOrderItem() {
     }
 
     render(){
-        const {header, hasOrders, orders, label } = this.props;
+        const {header, hasOrders, label, isLoading } = this.props;
 
         const noOrderStyles = {
             padding: "20px"
         };
-
+        console.log(window.location.hash.replace('#', ''))
         return(
-            <div style={{marginTop: '80px'}} id={label}>
+            <div style={{marginTop: '80px'}} id={window.location.hash.replace('#', '')}>
                 <div style={{marginLeft: '20px', paddingTop:'36px'}}>
-                <h4>{header}{this.props.response}</h4>
+                <h4>{window.location.hash}</h4>
                 </div>
-                {true ? this.renderOrderItem(): (
-                    <div style={noOrderStyles}>
-                        {`No ${label} orders yet.`}
+                {isLoading? this.cached: (
+                    <div>
+                        {this.renderOrderItem()}
                     </div>
                 )}
           </div>

@@ -120,20 +120,23 @@ button {
 
 
 
-body .nlink{
-  color: darkgrey;
-  margin-bottom: -6px;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-  background: lightgrey;
-}
 
-.nlink:hover{
+
+:global 
+  body .nlinkSelected{
   background: white;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   color: #fc4250;
   margin-bottom: -6px;
+}
+
+:global body .nlink{
+  color: darkgrey;
+  margin-bottom: -6px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  background: none;
 }
 
 body .styleStatus{
@@ -143,7 +146,7 @@ body .styleStatus{
 
 .panelContainer{
   margin-top: -10px;
-  height: 100%;
+  height: 10000000px;
   width: 100%;
   background: #FFCAD3;
 }

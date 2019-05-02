@@ -15,9 +15,9 @@ import Orders from "./data/orders";
 import Items from "./data/items";
 import Addons from "./data/addons";
 import logo from './Mr_Yum_logo_white.svg';
-import OrderPanel from './components/OrderPanel.js';
+import classNames from 'classnames';
 import stub from './data/airtableDatabaseStub.json';
-import socketIOClient from "socket.io-client";
+import SocketListener from './components/Common/SocketListener';
 
 import {
   Collapse,
@@ -34,18 +34,6 @@ import {
 
 import './App.css';
 import "react-toastify/dist/ReactToastify.css";
-
-// Pusher Setup and Channels
-// NOTE: Has to have the 'client-' prefix otherwise Pusher rejects the event.
-// https://pusher.com/docs/client_api_guide/client_events#trigger-events
-const ORDER_COMPLETE_EVENT = "client-complete-order";
-const ORDER_CHANNEL_NAME = "private-order-channel";
-const ORDER_ADDED_EVENT = "new-order";
-const pusher = new Pusher(process.env.REACT_APP_PUSHER_APP_KEY, {
-  authEndpoint: process.env.REACT_APP_PUSHER_DOMAIN + "/pusher/auth",
-  cluster: "ap1"
-});
-//////////////////////////////////////////////////////////////////////////////
 
 const connectionStyles = status => {
   return {
@@ -96,8 +84,6 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      response: false,
-      endpoint: "localhost:5000",
       currentView: '#pending',
     };
 
@@ -105,37 +91,11 @@ class App extends React.Component {
   }
 
   componentWillMount(){
-    const {  getOrders, orders } = this.props;
-    getOrders();
-    
-
+    window.location = '#pending';
   }
-
-  componentWillUpdate(){
-    const { getOrders, orders} = this.props;
-    //getOrders();
-    
-  }
-
   
-
   componentWillUnmount(){
     localStorage.clear('persist:persistedStore')
-  }
-
-  componentDidMount(){
-
-    const { endpoint } = this.state;
-    const socket = socketIOClient(endpoint);
-    socket.on("FromAPI", data => this.setState({ response: data }, this.checkUpdate(this.state.response, data)));
-  }
-
-  checkUpdate(past, current){
-    console.log(past, this.state.response)
-    if(past !== current){
-      console.log('got here')
-      this.props.getOrders()
-    }
   }
 
   routeTo(suffix){
@@ -148,36 +108,15 @@ class App extends React.Component {
 
   render() {
     // eslint-disable-next-line
-    const { orders, isLoading, sendSms, updateAirtable } = this.props
-    const {connectionStatus} = this.state;
-    console.log(orders);
-
-    if(isLoading){
-      return <LoadingScreen />
-    }
-    else{
-
-    const pendingOrders = orders.pending;
-    console.log(pendingOrders)
-    const completedOrders = orders.completed;
-    const hasPendingOrders = !!pendingOrders.length;
-    const hasCompletedOrders = !!completedOrders.length;
-
-    const routes = [
-      { name: 'home', path: '#pending' },
-      { name: 'about', path: '#ready' },
-      { name: 'whatwedo', path: '#completed' },
-    ];
+    const {isLoading} = this.props
 
     const displayedRoutes = {
-      pending: { label: `Pending Orders`, amount: `(${pendingOrders.length})`, path: routes[0].path },
-      ready: { label: `Ready For Pickup`, amount: `(${pendingOrders.length})`, path: routes[1].path },
-      completed: { label: `Completed Orders`, amount: `(${completedOrders.length})`, path: routes[2].path },
+      pending: { label: `Pending Orders`, path: '#pending' },
+      ready: { label: `Ready For Pickup`, path: '#ready' },
+      completed: { label: `Completed Orders`, path: '#completed' },
     };
 
-    console.log(this.state.response);
-    // const path = router.location.pathname.split('/')[1];
-    // const showMenu = venueNames ? venueNames.includes(path) ? true : false : false;
+      console.log(window.location.hash)
     return (
       <div style={{display: 'block'}} className="App">
         <ToastContainer
@@ -195,12 +134,10 @@ class App extends React.Component {
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               {Object.keys(displayedRoutes).map(key => (
-                <NavItem className="nlink" >
-                  <div className="navigationLink" onClick ={() => {this.clickNav(displayedRoutes[key].path)}}>
+                <NavItem className="navigationLink" >
+                  <div style={{background: window.location.hash === displayedRoutes[key].path ? 'white' : 'lightgrey'}}className={classNames(window.location.hash !== '#pending' ? "navigationLink" : "nLinkSelected")} onClick ={() => {this.clickNav(displayedRoutes[key].path)}}>
                     <NavLink className="nlink" href={displayedRoutes[key].path}>
                     {displayedRoutes[key].label}
-                    <br/>
-                    {displayedRoutes[key].amount}
                     </NavLink>
                     <div className="blueRectBelow"></div>
                   </div>
@@ -210,19 +147,10 @@ class App extends React.Component {
           </Collapse>
         </Navbar>
         <div className="panelContainer">
-          <OrderPanel
-            hasOrders={hasPendingOrders}
-            orders={pendingOrders}
-            label='pending'
-            header="Pending Orders"
-            sendSms={sendSms}
-            updateAirtable={updateAirtable}
-            channel={this.channel}
-          />
-      </div>
+              <SocketListener label={'#ready'}/>
+        </div>
   </div>);
     }
-  }
 }
 
 
@@ -230,7 +158,6 @@ const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);
 
 const mapStateToProps = state => ({
   router: state.router,
-  orders: state.common.orders,
   isLoading: state.common.isLoading,
 });
 

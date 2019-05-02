@@ -16,11 +16,13 @@ class Order extends Component {
   generateItems(){
     const {items} = this.props;
     return items.map(item => {
+      console.log(item)
       const {customer_name, table_or_pickup, phone_number, created_time} = item;
       return (
         <div>
-        <h6>{`${table_or_pickup}`}</h6>
-        <p>{`${item.items.name}`}</p>
+        <h6>{`${item.items.name}`}</h6>
+          <p>Addons will be listed here.</p>
+        <h6>{item.items.price}</h6>
         </div>
       );
     });
@@ -33,7 +35,7 @@ class Order extends Component {
       const {id, processed, order_is_ready } = item;
       const fields = {
         processed: true,
-        order_is_ready: label === 'pending' ? false : !order_is_ready,
+        order_is_ready: window.location.hash === '#pending' ? false : !order_is_ready,
         completed_time: newCompletionTime,
       }
       updateAirtable(id, fields)})
@@ -50,15 +52,14 @@ class Order extends Component {
               <CardTitle>
               <h2>{name}</h2>
               <h2>{redemptionCode}</h2>
-              <h4>{items[0].table_or_pickup}</h4>
               </CardTitle>
               <CardText>
                 {this.generateItems()}
               </CardText>
               <Button onClick={() => {this.updateOrderStatus()}} style={{position: 'absolute', right: '10px', top: '20px', width: '200px', height: '90px',background: 'green', color:'white'}}>
-                Complete
+                {window.location.hash !== '#completed' ? 'Complete' : 'Undo'}
               </Button>
-              {label === 'pending' ? <Button style={{position: 'absolute', right: '10px', top: '120px', width: '200px', height: '90px',background: 'blue', color:'white'}}  onClick={() => {sendSms(name, number,redemptionCode)}} >
+              {window.location.hash === '#ready' ? <Button style={{position: 'absolute', right: '10px', top: '120px', width: '200px', height: '90px',background: 'blue', color:'white'}}  onClick={() => {sendSms(name, number,redemptionCode)}} >
                 Send SMS
               </Button> : null}
             
