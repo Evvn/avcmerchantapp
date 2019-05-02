@@ -5,6 +5,8 @@ import { toast } from "react-toastify";
 import { Card, Button, CardImg, CardText, CardBody,
   CardTitle, CardSubtitle } from 'reactstrap';
 
+  import Addons from '../data/Addons.json';
+
 
 
 const titleStyles = { fontWeight: "bold", padding: "10px 0" };
@@ -12,6 +14,10 @@ const titleStyles = { fontWeight: "bold", padding: "10px 0" };
 class Order extends Component {
 
 
+  findAddon(id){
+    const match =  Addons.filter(addon => addon.id === id)
+    return (<div><p>{`--${match[0].name}  - Addon Price: ${match[0].price}`}</p></div>)
+  }
 
   generateItems(){
     const {items} = this.props;
@@ -20,10 +26,15 @@ class Order extends Component {
       const {customer_name, table_or_pickup, phone_number, created_time} = item;
       return (
         <div>
-        <h6>{`${item.items.name}`}</h6>
-          <p>Addons will be listed here.</p>
-        <h6>{'Price: ' + item.items.price}</h6>
-        <h6>{'Quanity: ' + item.quantity}</h6>
+        <h5>{`${item.items.name}`}</h5>
+        <br/>
+          <h6>Addons</h6>
+          {(item.items.addons || []).map(toAdd => this.findAddon(toAdd))}
+        <br/>
+        <h5>{'Price: ' + item.items.price}</h5>
+        <h5>{'Quanity: ' + item.quantity}</h5>
+        <hr/>
+        <br/>
         </div>
       );
     });
@@ -57,10 +68,10 @@ class Order extends Component {
               <CardText>
                 {this.generateItems()}
               </CardText>
-              <Button onClick={() => {this.updateOrderStatus()}} style={{position: 'absolute', right: '10px', top: '20px', width: '200px', height: '90px',background: 'green', color:'white'}}>
+              {window.location.hash !== '#completed' ? <Button onClick={() => {toast("Order Status Updating...."); this.updateOrderStatus()}} style={{position: 'absolute', right: '10px', top: '20px', width: '200px', height: '90px',background: 'green', color:'white'}}>
                 {window.location.hash !== '#completed' ? 'Complete' : 'Undo'}
-              </Button>
-              {window.location.hash === '#ready' ? <Button style={{position: 'absolute', right: '10px', top: '120px', width: '200px', height: '90px',background: 'blue', color:'white'}}  onClick={() => {sendSms(name, number,redemptionCode)}} >
+              </Button> : null}
+              {window.location.hash === '#ready' ? <Button style={{position: 'absolute', right: '10px', top: '120px', width: '200px', height: '90px',background: 'blue', color:'white'}}  onClick={() => {toast("Sending SMS...."); sendSms(name, number,redemptionCode)}} >
                 Send SMS
               </Button> : null}
             

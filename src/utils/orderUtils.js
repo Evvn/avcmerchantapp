@@ -7,15 +7,16 @@ import Items from "../data/items";
 import Addons from "../data/addons";
 
 export const mapOrdersToData = (data) => {
-    const { orders, addons, items} = data;
+    const { orders, addOns, items} = data;
     return sortOrders(orders.map(order => {
+      
       const { item_id: [itemId], addons, quantity } = order;
       return {
         ...order,
         ...{
         items: items.find(item => item.id === itemId),
         addons: (addons || []).map(addonId => {
-          return addons.find(addon => addon.id === addonId);
+          return addOns.find(addon => addon.id === addonId);
         }),
         quantity
       }};
