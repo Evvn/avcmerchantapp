@@ -29,7 +29,7 @@ class Order extends Component {
         <h5>{`${item.items.name}`}</h5>
         <br/>
           <h6>Addons</h6>
-          {(item.items.addons || []).map(toAdd => this.findAddon(toAdd))}
+          {(item.addons || []).map(toAdd => this.findAddon(toAdd))}
         <br/>
         <h5>{'Price: ' + item.items.price}</h5>
         <h5>{'Quanity: ' + item.quantity}</h5>
@@ -74,7 +74,7 @@ class Order extends Component {
               {window.location.hash === '#ready' ? <Button style={{position: 'absolute', right: '10px', top: '120px', width: '200px', height: '90px',background: 'blue', color:'white'}}  onClick={() => {toast("Sending SMS...."); sendSms(name, number,redemptionCode)}} >
                 Send SMS
               </Button> : null}
-            
+
         </Card>
       </div>
   );
