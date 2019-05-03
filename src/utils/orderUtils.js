@@ -8,20 +8,28 @@ import Addons from "../data/addons";
 
 export const mapOrdersToData = (data) => {
     const { orders, addOns, items} = data;
-    console.log(addOns)
-    return sortOrders(orders.map(order => {
+    console.log(orders.map(order => order))
 
+    return sortOrders(orders.map(order => {
+      try{
+          console.log(order)
       const { item_id: [itemId], addons, quantity } = order;
+      const validItemId = itemId ? itemId : '';
+      if(itemId){
       return {
         ...order,
         ...{
-        items: items.find(item => item.id === itemId),
+        items: (items || []).find(item => item.id === validItemId),
         addons: (addons || []).map(addonId => {
-          return addOns.find(addon => addon.id === addonId);
+          return (addOns || []).find(addon => addon.id === addonId);
         }),
         quantity
-      }};
+      }}};
+    }catch (e){
+      console.log(e)
+    }
     }));
+
 };
 
 export const sortByTime = (orders) =>{

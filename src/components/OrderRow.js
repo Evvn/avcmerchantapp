@@ -15,14 +15,12 @@ class Order extends Component {
 
 
   findAddon(match){
-
     return (<div><p>{`--${match.name}  - Addon Price: ${match.price}`}</p></div>)
   }
 
   generateItems(){
     const {items} = this.props;
     return items.map(item => {
-      console.log(item)
       const {customer_name, table_or_pickup, phone_number, created_time} = item;
       return (
         <div>
@@ -33,6 +31,8 @@ class Order extends Component {
         <br/>
         <h5>{'Price: ' + item.items.price}</h5>
         <h5>{'Quanity: ' + item.quantity}</h5>
+        <br/>
+        <h5>{'Ordered at: ' + created_time}</h5>
         <hr/>
         <br/>
         </div>

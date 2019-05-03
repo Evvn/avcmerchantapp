@@ -7,10 +7,10 @@ import * as utils from '../../utils/orderUtils';
 
 export function* sendSms(action) {
   const res = yield callBff(`ordering/sms`, 'POST',
-    { 
+    {
       redemptionCode: action.redemptionCode,
       number: action.number,
-      name: action.name 
+      name: action.name
     }
   )
     .then(response => response)
@@ -33,14 +33,17 @@ export function* updateAirtableOrder(action){
 
 
 export function* getCompleteOrders() {
-  
-  const rawOrders = yield utils.airtableFetch();
-  const orderState = yield utils.mapOrdersToData(rawOrders);
+  try {
+    const rawOrders = yield utils.airtableFetch();
+    const orderState = yield utils.mapOrdersToData(rawOrders);
 
-  yield put({
-    type: actionTypes.GET_ORDERS_SUCCESS,
-    orderState,
-  })
+    yield put({
+      type: actionTypes.GET_ORDERS_SUCCESS,
+      orderState,
+    })
+  } catch (e) {
+    console.log(e);
+  }
 };
 
 
