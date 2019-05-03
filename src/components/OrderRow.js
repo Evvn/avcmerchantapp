@@ -32,7 +32,7 @@ class Order extends Component {
         <h5>{'Price: ' + item.items.price}</h5>
         <h5>{'Quanity: ' + item.quantity}</h5>
         <br/>
-        <h5>{'Ordered at: ' + created_time}</h5>
+        <h5>{'Ordered at: ' + dayjs(created_time).format('HH:mm:ss ddd DD/MM/YY')}</h5>
         <hr/>
         <br/>
         </div>
